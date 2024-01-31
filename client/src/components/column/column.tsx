@@ -13,7 +13,7 @@ import { Title } from "../primitives/title";
 import { Footer } from "./components/footer";
 import { Container } from "./styled/container";
 import { Header } from "./styled/header";
-import { ListEvent } from "../../common/enums";
+import { CardEvent, ListEvent } from "../../common/enums";
 import { socket } from "../../context/socket";
 
 type Props = {
@@ -26,6 +26,10 @@ type Props = {
 export const Column = ({ listId, listName, cards, index }: Props) => {
   const handleDelete = () => {
     socket.emit(ListEvent.DELETE, listId);
+  };
+
+  const handleCreateCard = (name: string) => {
+    socket.emit(CardEvent.CREATE, listId, name);
   };
 
   return (
@@ -60,7 +64,7 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             }}
             cards={cards}
           />
-          <Footer onCreateCard={() => {}} />
+          <Footer onCreateCard={handleCreateCard} />
         </Container>
       )}
     </Draggable>

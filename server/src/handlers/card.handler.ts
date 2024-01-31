@@ -13,36 +13,6 @@ export class CardHandler extends SocketHandler {
     socket.on(CardEvent.DELETE, this.deleteCard.bind(this));
   }
 
-  public deleteCard(cardId: string, listId: string): void {
-    const lists = this.db.getData();
-
-    const updatedLists = lists.map((list) =>
-      list.id === listId
-        ? list.setCards(list.cards.filter((card) => card.id !== cardId))
-        : list
-    );
-
-    this.db.setData(updatedLists);
-    this.updateLists();
-  }
-
-  public duplicateCard(cardId: string, listId: string): void {
-    const list: List = this.db.getData().find((list) => list.id === listId);
-    const card: Card = list.cards.find((card) => card.id === cardId);
-
-    const duplicatedCard = card.duplicate();
-    const lists = this.db.getData();
-
-    const updatedLists = lists.map((list) =>
-      list.id === listId
-        ? list.setCards(list.cards.concat(duplicatedCard))
-        : list
-    );
-
-    this.db.setData(updatedLists);
-    this.updateLists();
-  }
-
   public createCard(listId: string, cardName: string): void {
     const newCard = new Card(cardName, "");
     const lists = this.db.getData();
@@ -75,6 +45,36 @@ export class CardHandler extends SocketHandler {
       destinationListId,
     });
     this.db.setData(reordered);
+    this.updateLists();
+  }
+
+  public duplicateCard(cardId: string, listId: string): void {
+    const list: List = this.db.getData().find((list) => list.id === listId);
+    const card: Card = list.cards.find((card) => card.id === cardId);
+
+    const duplicatedCard = card.duplicate();
+    const lists = this.db.getData();
+
+    const updatedLists = lists.map((list) =>
+      list.id === listId
+        ? list.setCards(list.cards.concat(duplicatedCard))
+        : list
+    );
+
+    this.db.setData(updatedLists);
+    this.updateLists();
+  }
+
+  public deleteCard(cardId: string, listId: string): void {
+    const lists = this.db.getData();
+
+    const updatedLists = lists.map((list) =>
+      list.id === listId
+        ? list.setCards(list.cards.filter((card) => card.id !== cardId))
+        : list
+    );
+
+    this.db.setData(updatedLists);
     this.updateLists();
   }
 }
