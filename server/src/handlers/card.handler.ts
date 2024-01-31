@@ -63,10 +63,11 @@ export class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
+    //observer.set("duplicate")
   }
 
   public deleteCard(cardId: string, listId: string): void {
-    const lists = this.db.getData();
+    const lists: List[] = this.db.getData();
 
     const updatedLists = lists.map((list) =>
       list.id === listId

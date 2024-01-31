@@ -32,6 +32,10 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
     socket.emit(CardEvent.CREATE, listId, name);
   };
 
+  const handleTitleChange = (name: string) => {
+    socket.emit(ListEvent.RENAME, listId, name);
+  };
+
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
@@ -48,7 +52,7 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             <Title
               aria-label={listName}
               title={listName}
-              onChange={() => {}}
+              onChange={handleTitleChange}
               fontSize="large"
               width={200}
               isBold

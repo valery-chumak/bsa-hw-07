@@ -9,11 +9,11 @@ class Publisher {
 
   constructor() {}
 
-  setLog(log: ILog, subscribers: []) {
-    this.log = log;
-    this.subscribers = subscribers;
-    // this.notifyAll();
-  }
+  // setLog(log: ILog, subscribers: []) {
+  //   this.log = log;
+  //   this.subscribers = subscribers;
+  //   this.notifyAll();
+  // }
 
   // notifyAll() {
   //   return this.subscribers.forEach((subscriber) => {
