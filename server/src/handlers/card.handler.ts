@@ -12,6 +12,7 @@ export class CardHandler extends SocketHandler {
     socket.on(CardEvent.DUPLICATE, this.duplicateCard.bind(this));
     socket.on(CardEvent.DELETE, this.deleteCard.bind(this));
     socket.on(CardEvent.CHANGE_DESCRIPTION, this.changeDescription.bind(this));
+    socket.on(CardEvent.RENAME, this.changeTitle.bind(this));
   }
 
   public createCard(listId: string, cardName: string): void {
@@ -99,6 +100,23 @@ export class CardHandler extends SocketHandler {
 
     this.db.setData(lists);
 
+    this.updateLists();
+  }
+
+  public changeTitle(listId: string, cardId: string, name: string): void {
+    const lists: List[] = this.db.getData();
+
+    lists.forEach((list) => {
+      if (list.id === listId) {
+        list.cards.forEach((card) => {
+          if (card.id === cardId) {
+            card.name = name;
+          }
+        });
+      }
+    });
+
+    this.db.setData(lists);
     this.updateLists();
   }
 }

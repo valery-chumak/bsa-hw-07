@@ -11,9 +11,17 @@ type Props = {
   title: string;
   width?: number;
   onChange: (value: string, ref: RefObject<HTMLDivElement>) => void;
+  onEnter: () => void;
 };
 
-export const Title = ({ onChange, title, fontSize, isBold, width }: Props) => {
+export const Title = ({
+  onChange,
+  onEnter,
+  title,
+  fontSize,
+  isBold,
+  width,
+}: Props) => {
   const { ref, isComponentVisible, setIsComponentVisible } =
     useComponentVisible(false);
   const [value, setValue] = useState(title);
@@ -25,6 +33,14 @@ export const Title = ({ onChange, title, fontSize, isBold, width }: Props) => {
     onChange(e.target.value, ref);
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      onEnter();
+      setIsComponentVisible(false);
+    }
+  };
+
   return (
     <TitleContainer className="title-container" ref={ref}>
       {isComponentVisible ? (
@@ -33,6 +49,7 @@ export const Title = ({ onChange, title, fontSize, isBold, width }: Props) => {
           value={value}
           onChange={onEdit}
           onBlur={() => setIsComponentVisible(false)}
+          onKeyDown={handleKeyDown}
           fontSize={fontSize}
           isBold={isBold}
           autoFocus={isComponentVisible}

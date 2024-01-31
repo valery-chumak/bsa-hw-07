@@ -11,7 +11,7 @@ import { Content } from "./styled/content";
 import { Footer } from "./styled/footer";
 import { socket } from "../../context/socket";
 import { CardEvent } from "../../common/enums";
-import { RefObject, useRef, useState } from "react";
+import { useState } from "react";
 
 type Props = {
   card: Card;
@@ -40,9 +40,13 @@ export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
     setTitle(newTitle);
   };
 
-  const onDescriptionSubmit = () => {
-    console.log("emit");
+  const handleDescriptionSubmit = () => {
     socket.emit(CardEvent.CHANGE_DESCRIPTION, listId, card.id, description);
+  };
+
+  const handleTitleSubmit = () => {
+    console.log("emit");
+    socket.emit(CardEvent.RENAME, listId, card.id, title);
   };
 
   return (
@@ -59,6 +63,7 @@ export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
       <Content>
         <Title
           onChange={handleTitleChange}
+          onEnter={handleTitleSubmit}
           title={card.name}
           fontSize="large"
           isBold
@@ -66,7 +71,7 @@ export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
         <Text
           text={card.description}
           onChange={handleDescriptionChange}
-          onEnter={onDescriptionSubmit}
+          onEnter={handleDescriptionSubmit}
         />
         <Footer>
           <DeleteButton onClick={handleDeleteCard} />
