@@ -3,6 +3,7 @@ const CardEvent = {
   REORDER: "card:reorder",
   DUPLICATE: "card:duplicate",
   DELETE: "card:delete",
+  CHANGE_DESCRIPTION: "card:change-description",
 } as const;
 
 export { CardEvent };

@@ -11,6 +11,7 @@ import { Content } from "./styled/content";
 import { Footer } from "./styled/footer";
 import { socket } from "../../context/socket";
 import { CardEvent } from "../../common/enums";
+import { RefObject, useRef, useState } from "react";
 
 type Props = {
   card: Card;
@@ -20,12 +21,28 @@ type Props = {
 };
 
 export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
+  const [description, setDescription] = useState("");
+  const [title, setTitle] = useState("");
+
   const handleCopyCard = () => {
     socket.emit(CardEvent.DUPLICATE, card.id, listId);
   };
 
   const handleDeleteCard = () => {
     socket.emit(CardEvent.DELETE, card.id, listId);
+  };
+
+  const handleDescriptionChange = (newDescription: string) => {
+    setDescription(newDescription);
+  };
+
+  const handleTitleChange = (newTitle: string) => {
+    setTitle(newTitle);
+  };
+
+  const onDescriptionSubmit = () => {
+    console.log("emit");
+    socket.emit(CardEvent.CHANGE_DESCRIPTION, listId, card.id, description);
   };
 
   return (
@@ -40,8 +57,17 @@ export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
       aria-label={card.name}
     >
       <Content>
-        <Title onChange={() => {}} title={card.name} fontSize="large" isBold />
-        <Text text={card.description} onChange={() => {}} />
+        <Title
+          onChange={handleTitleChange}
+          title={card.name}
+          fontSize="large"
+          isBold
+        />
+        <Text
+          text={card.description}
+          onChange={handleDescriptionChange}
+          onEnter={onDescriptionSubmit}
+        />
         <Footer>
           <DeleteButton onClick={handleDeleteCard} />
           <Splitter />

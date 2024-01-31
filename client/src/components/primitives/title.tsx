@@ -1,16 +1,16 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, RefObject, useEffect, useState } from "react";
 
-import { useComponentVisible } from '../../hooks/useComponentVisible';
-import { BasicTitle } from './styled/basic-title';
-import { TitleContainer } from './styled/title-container';
-import { TitleInput } from './styled/title-input';
+import { useComponentVisible } from "../../hooks/useComponentVisible";
+import { BasicTitle } from "./styled/basic-title";
+import { TitleContainer } from "./styled/title-container";
+import { TitleInput } from "./styled/title-input";
 
 type Props = {
   fontSize: "x-large" | "large" | "medium";
   isBold?: boolean;
   title: string;
   width?: number;
-  onChange: (value: string) => void;
+  onChange: (value: string, ref: RefObject<HTMLDivElement>) => void;
 };
 
 export const Title = ({ onChange, title, fontSize, isBold, width }: Props) => {
@@ -22,7 +22,7 @@ export const Title = ({ onChange, title, fontSize, isBold, width }: Props) => {
 
   const onEdit = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
-    onChange(e.target.value);
+    onChange(e.target.value, ref);
   };
 
   return (
