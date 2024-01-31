@@ -45,7 +45,6 @@ export const CardItem = ({ card, isDragging, provided, listId }: Props) => {
   };
 
   const handleTitleSubmit = () => {
-    console.log("emit");
     socket.emit(CardEvent.RENAME, listId, card.id, title);
   };
 

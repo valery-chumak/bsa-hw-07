@@ -4,6 +4,17 @@ import { CardEvent } from "../common/enums";
 import { Card } from "../data/models/card";
 import { SocketHandler } from "./socket.handler";
 import { List } from "../data/models/list";
+import { Publisher } from "../data/models/publisher";
+import { SubscriberConsole } from "../data/models/subscriberConsole";
+import { SubscriberFile } from "../data/models/subscriberFile";
+import * as path from "path";
+
+const publisher = new Publisher();
+const consoleSubscriber = new SubscriberConsole();
+const fileSubscriber = new SubscriberFile();
+
+publisher.subscribe(consoleSubscriber);
+publisher.subscribe(fileSubscriber);
 
 export class CardHandler extends SocketHandler {
   public handleConnection(socket: Socket): void {
@@ -49,7 +60,7 @@ export class CardHandler extends SocketHandler {
     this.db.setData(reordered);
     this.updateLists();
   }
-
+  // PATTERN: Prototype
   public duplicateCard(cardId: string, listId: string): void {
     const list: List = this.db.getData().find((list) => list.id === listId);
     const card: Card = list.cards.find((card) => card.id === cardId);
@@ -65,7 +76,12 @@ export class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
-    //observer.set("duplicate")
+
+    const logEntry = {
+      text: `Duplicated card: ${duplicatedCard.name}`,
+      level: "info",
+    };
+    publisher.setLog(logEntry);
   }
 
   public deleteCard(cardId: string, listId: string): void {
@@ -79,6 +95,11 @@ export class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
+    const logEntry = {
+      text: `Deleted card: ${cardId}`,
+      level: "info",
+    };
+    publisher.setLog(logEntry);
   }
 
   public changeDescription(
@@ -101,6 +122,12 @@ export class CardHandler extends SocketHandler {
     this.db.setData(lists);
 
     this.updateLists();
+
+    const logEntry = {
+      text: `Change description card: ${cardId}`,
+      level: "info",
+    };
+    publisher.setLog(logEntry);
   }
 
   public changeTitle(listId: string, cardId: string, name: string): void {
@@ -118,5 +145,10 @@ export class CardHandler extends SocketHandler {
 
     this.db.setData(lists);
     this.updateLists();
+    const logEntry = {
+      text: `Change title card: ${cardId}`,
+      level: "info",
+    };
+    publisher.setLog(logEntry);
   }
 }

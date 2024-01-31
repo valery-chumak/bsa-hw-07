@@ -1,25 +1,36 @@
-interface ILog {
+export interface ILog {
   text: string;
   level: string;
 }
 
-class Publisher {
+interface Observer {
+  inform(publisher: Publisher): void;
+}
+
+export class Publisher {
   public log: ILog;
-  public subscribers: [];
+  public subscribers: Observer[] = [];
 
   constructor() {}
 
-  // setLog(log: ILog, subscribers: []) {
-  //   this.log = log;
-  //   this.subscribers = subscribers;
-  //   this.notifyAll();
-  // }
+  setLog(log: ILog) {
+    this.log = log;
+    this.notifyAll();
+  }
 
-  // notifyAll() {
-  //   return this.subscribers.forEach((subscriber) => {
-  //     subscriber.inform(this);
-  //   });
-  // }
+  notifyAll() {
+    return this.subscribers.forEach((subscriber) => {
+      subscriber.inform(this);
+    });
+  }
 
-  subscribe() {}
+  subscribe(observer: Observer) {
+    this.subscribers.push(observer);
+  }
+
+  unsubscribe(observer: Observer) {
+    this.subscribers = this.subscribers.filter(
+      (subscriber) => subscriber !== observer
+    );
+  }
 }

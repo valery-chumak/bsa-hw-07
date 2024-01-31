@@ -15,7 +15,7 @@ class Card {
     this.createdAt = new Date();
     this.id = randomUUID();
   }
-
+  // PATTERN: Prototype
   public duplicate() {
     return new Card(this.name, this.description);
   }
