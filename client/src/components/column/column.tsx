@@ -1,18 +1,21 @@
-import { colors } from '@atlaskit/theme';
+import { colors } from "@atlaskit/theme";
 import type {
   DraggableProvided,
   DraggableStateSnapshot,
-} from '@hello-pangea/dnd';
-import { Draggable } from '@hello-pangea/dnd';
+} from "@hello-pangea/dnd";
+import { Draggable } from "@hello-pangea/dnd";
 
-import type { Card } from '../../common/types';
-import { CardsList } from '../card-list/card-list';
-import { DeleteButton } from '../primitives/delete-button';
-import { Splitter } from '../primitives/styled/splitter';
-import { Title } from '../primitives/title';
-import { Footer } from './components/footer';
-import { Container } from './styled/container';
-import { Header } from './styled/header';
+import type { Card } from "../../common/types";
+import { CardsList } from "../card-list/card-list";
+import { DeleteButton } from "../primitives/delete-button";
+import { Splitter } from "../primitives/styled/splitter";
+import { Title } from "../primitives/title";
+import { Footer } from "./components/footer";
+import { Container } from "./styled/container";
+import { Header } from "./styled/header";
+import { CardEvent, ListEvent } from "../../common/enums";
+import { socket } from "../../context/socket";
+import { useState } from "react";
 
 type Props = {
   listId: string;
@@ -22,10 +25,33 @@ type Props = {
 };
 
 export const Column = ({ listId, listName, cards, index }: Props) => {
+  const [title, setTitle] = useState("");
+  const handleDelete = () => {
+    socket.emit(ListEvent.DELETE, listId);
+  };
+
+  const handleCreateCard = (name: string) => {
+    if (name !== "") {
+      socket.emit(CardEvent.CREATE, listId, name);
+    }
+  };
+
+  const handleTitleChange = (name: string) => {
+    setTitle(name);
+  };
+
+  const handleTitleSubmit = () => {
+    socket.emit(ListEvent.RENAME, listId, title);
+  };
+
   return (
     <Draggable draggableId={listId} index={index}>
       {(provided: DraggableProvided, snapshot: DraggableStateSnapshot) => (
-        <Container className="column-container" ref={provided.innerRef} {...provided.draggableProps}>
+        <Container
+          className="column-container"
+          ref={provided.innerRef}
+          {...provided.draggableProps}
+        >
           <Header
             className="column-header"
             isDragging={snapshot.isDragging}
@@ -34,23 +60,24 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
             <Title
               aria-label={listName}
               title={listName}
-              onChange={() => {}}
+              onChange={handleTitleChange}
+              onEnter={handleTitleSubmit}
               fontSize="large"
               width={200}
               isBold
             />
             <Splitter />
-            <DeleteButton color="#FFF0" onClick={() => {}} />
+            <DeleteButton color="#FFF0" onClick={handleDelete} />
           </Header>
           <CardsList
             listId={listId}
             listType="CARD"
             style={{
-              backgroundColor: snapshot.isDragging ? colors.G50 : '',
+              backgroundColor: snapshot.isDragging ? colors.G50 : "",
             }}
             cards={cards}
           />
-          <Footer onCreateCard={() => {}} />
+          <Footer onCreateCard={handleCreateCard} />
         </Container>
       )}
     </Draggable>

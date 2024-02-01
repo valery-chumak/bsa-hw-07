@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-import { AddButton } from './add-button';
-import { Input } from './styled/input';
+import { AddButton } from "./add-button";
+import { Input } from "./styled/input";
 
 type Props = {
   onSubmit: (value: string) => void;
 };
 
 const CreatorInput = ({ onSubmit }: Props) => {
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
   const onClick = () => {
-    setName('');
+    setName("");
     onSubmit(name);
   };
 

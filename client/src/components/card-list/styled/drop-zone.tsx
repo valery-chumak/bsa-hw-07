@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
-import { SPACE_IN_PX } from '../../../common/constants';
+import { SPACE_IN_PX } from "../../../common/constants";
 
 const DropZone = styled.div`
   min-height: 1px;
