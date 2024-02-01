@@ -29,6 +29,13 @@ export class CardHandler extends SocketHandler {
 
   public createCard(listId: string, cardName: string): void {
     try {
+      if (cardName.length < 3) {
+        logEntry = {
+          text: `Warning: Card name "${cardName}" is very short.`,
+          level: "warning",
+        };
+        publisher.setLog(logEntry);
+      }
       const newCard = new Card(cardName, "");
       const lists = this.db.getData();
 
@@ -139,6 +146,13 @@ export class CardHandler extends SocketHandler {
     description: string,
   ): void {
     try {
+      if (description.length < 3) {
+        logEntry = {
+          text: `Warning: Card description "${description}" is very short.`,
+          level: "warning",
+        };
+        publisher.setLog(logEntry);
+      }
       const lists: List[] = this.db.getData();
 
       lists.forEach((list) => {
@@ -170,6 +184,13 @@ export class CardHandler extends SocketHandler {
 
   public changeTitle(listId: string, cardId: string, name: string): void {
     try {
+      if (name.length < 3) {
+        logEntry = {
+          text: `Warning: Card name "${name}" is very short.`,
+          level: "warning",
+        };
+        publisher.setLog(logEntry);
+      }
       const lists: List[] = this.db.getData();
 
       lists.forEach((list) => {
