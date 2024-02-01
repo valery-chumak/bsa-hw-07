@@ -7,8 +7,8 @@ import { List } from "../data/models/list";
 import { Publisher } from "../data/models/publisher";
 import { SubscriberConsole } from "../data/models/subscriberConsole";
 import { SubscriberFile } from "../data/models/subscriberFile";
-import * as path from "path";
 
+// PATTERN: Observer
 const publisher = new Publisher();
 const consoleSubscriber = new SubscriberConsole();
 const fileSubscriber = new SubscriberFile();
@@ -36,6 +36,12 @@ export class CardHandler extends SocketHandler {
 
     this.db.setData(updatedLists);
     this.updateLists();
+
+    const logEntry = {
+      text: `Created card: "${cardName}"`,
+      level: "info",
+    };
+    publisher.setLog(logEntry);
   }
 
   private reorderCards({
@@ -78,7 +84,7 @@ export class CardHandler extends SocketHandler {
     this.updateLists();
 
     const logEntry = {
-      text: `Duplicated card: ${duplicatedCard.name}`,
+      text: `Duplicated card: "${duplicatedCard.name}"`,
       level: "info",
     };
     publisher.setLog(logEntry);
@@ -146,7 +152,7 @@ export class CardHandler extends SocketHandler {
     this.db.setData(lists);
     this.updateLists();
     const logEntry = {
-      text: `Change title card: ${cardId}`,
+      text: `Change title card: ${cardId} on "${name}"`,
       level: "info",
     };
     publisher.setLog(logEntry);

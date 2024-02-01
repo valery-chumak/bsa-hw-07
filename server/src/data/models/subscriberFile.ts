@@ -1,6 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
 import { Publisher } from "./publisher";
+// PATTERN: Observer
 
 export class SubscriberFile {
   inform(publisher: Publisher) {

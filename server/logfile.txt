@@ -3,3 +3,20 @@
 [info]: Change description card: ac088731-3a3d-428b-bb71-f237255325de
 [info]: Duplicated card: add
 [info]: Deleted card: bbca2507-ec78-45b9-a3a3-05901a9a90d2
+[info]: Created list: ""
+[info]: Deleted list: 1ffc936b-d5f5-49c3-837d-c4b2d33017d8
+[info]: Created list: "Done"
+[info]: Created card: Create interface
+[info]: Change description card: bf4fc184-13dd-4f65-a3d2-8961fb6e85d8
+[info]: Duplicated card: Create interface
+[info]: Duplicated card: Implement adding lists
+[info]: Deleted card: deb1a7ae-44cc-48f2-984a-8f55c9a83631
+[info]: Change title card: bf4fc184-13dd-4f65-a3d2-8961fb6e85d8 on "Create interface application"
+[info]: Created list: ""
+[info]: Deleted list: b8fcbb42-0325-490b-a87a-e6475eb3102c
+[info]: Created list: "done"
+[info]: Created card: "create card"
+[info]: Change description card: 362a24ef-321c-4a53-83c9-c0f688d8841f
+[info]: Duplicated card: "create card"
+[info]: Created list: "list"
+[info]: Deleted list: c300c19e-e246-41ac-bfbd-dbe94f789399

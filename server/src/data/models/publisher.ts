@@ -1,3 +1,4 @@
+// PATTERN: Observer
 export interface ILog {
   text: string;
   level: string;
