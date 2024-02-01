@@ -1,6 +1,6 @@
 import { ReorderService } from "../../services/reorder.service";
 import { List } from "./list";
-
+// PATTERN: Proxy
 export class ReorderServiceProxy {
   private reorderService: ReorderService;
 

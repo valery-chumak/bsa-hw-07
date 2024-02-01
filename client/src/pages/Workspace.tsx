@@ -65,7 +65,9 @@ export const Workspace = () => {
   };
 
   const handleCreateList = (name: string) => {
-    socket.emit(ListEvent.CREATE, name);
+    if (name !== "") {
+      socket.emit(ListEvent.CREATE, name);
+    }
   };
 
   return (

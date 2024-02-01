@@ -6,7 +6,7 @@ import { ReorderServiceProxy } from "../data/models/reorderServiceProxy";
 
 abstract class SocketHandler {
   protected db: Database;
-
+  // PATTERN: Proxy
   protected reorderService: ReorderServiceProxy;
 
   protected io: Server;

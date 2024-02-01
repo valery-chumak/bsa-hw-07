@@ -15,6 +15,7 @@ import { Container } from "./styled/container";
 import { Header } from "./styled/header";
 import { CardEvent, ListEvent } from "../../common/enums";
 import { socket } from "../../context/socket";
+import { useState } from "react";
 
 type Props = {
   listId: string;
@@ -24,16 +25,23 @@ type Props = {
 };
 
 export const Column = ({ listId, listName, cards, index }: Props) => {
+  const [title, setTitle] = useState("");
   const handleDelete = () => {
     socket.emit(ListEvent.DELETE, listId);
   };
 
   const handleCreateCard = (name: string) => {
-    socket.emit(CardEvent.CREATE, listId, name);
+    if (name !== "") {
+      socket.emit(CardEvent.CREATE, listId, name);
+    }
   };
 
   const handleTitleChange = (name: string) => {
-    socket.emit(ListEvent.RENAME, listId, name);
+    setTitle(name);
+  };
+
+  const handleTitleSubmit = () => {
+    socket.emit(ListEvent.RENAME, listId, title);
   };
 
   return (
@@ -53,6 +61,7 @@ export const Column = ({ listId, listName, cards, index }: Props) => {
               aria-label={listName}
               title={listName}
               onChange={handleTitleChange}
+              onEnter={handleTitleSubmit}
               fontSize="large"
               width={200}
               isBold
