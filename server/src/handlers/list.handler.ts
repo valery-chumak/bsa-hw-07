@@ -2,11 +2,12 @@ import type { Socket } from "socket.io";
 import { ListEvent } from "../common/enums";
 import { List } from "../data/models/list";
 import { SocketHandler } from "./socket.handler";
-import { Publisher } from "../data/models/publisher";
+import { ILog, Publisher } from "../data/models/publisher";
 import { SubscriberConsole } from "../data/models/subscriberConsole";
 import { SubscriberFile } from "../data/models/subscriberFile";
 
 // PATTERN: Observer
+let logEntry: ILog;
 const publisher = new Publisher();
 const consoleSubscriber = new SubscriberConsole();
 const fileSubscriber = new SubscriberFile();
@@ -39,49 +40,69 @@ export class ListHandler extends SocketHandler {
   }
 
   private createList(name: string): void {
-    const lists = this.db.getData();
-    const newList = new List(name);
-    this.db.setData(lists.concat(newList));
-    this.updateLists();
-
-    const logEntry = {
-      text: `Created list: "${name}"`,
-      level: "info",
-    };
-    publisher.setLog(logEntry);
+    try {
+      const lists = this.db.getData();
+      const newList = new List(name);
+      this.db.setData(lists.concat(newList));
+      this.updateLists();
+      logEntry = {
+        text: `Created list: "${name}"`,
+        level: "info",
+      };
+    } catch (error) {
+      logEntry = {
+        text: `Error on create list: "${name}"`,
+        level: "error",
+      };
+    } finally {
+      publisher.setLog(logEntry);
+    }
   }
 
   public deleteList(listId: string): void {
-    const lists = this.db.getData();
+    try {
+      const lists = this.db.getData();
+      this.db.setData(lists.filter((list) => list.id !== listId));
+      this.updateLists();
 
-    this.db.setData(lists.filter((list) => list.id !== listId));
-
-    this.updateLists();
-
-    const logEntry = {
-      text: `Deleted list: ${listId}`,
-      level: "info",
-    };
-    publisher.setLog(logEntry);
+      logEntry = {
+        text: `Deleted list: ${listId}`,
+        level: "info",
+      };
+    } catch (error) {
+      logEntry = {
+        text: `Error on delete list: ${listId}`,
+        level: "error",
+      };
+    } finally {
+      publisher.setLog(logEntry);
+    }
   }
 
   public renameList(listId: string, name: string): void {
-    const lists: List[] = this.db.getData();
+    try {
+      const lists: List[] = this.db.getData();
 
-    lists.forEach((list) => {
-      if (list.id === listId) {
-        list.name = name;
-      }
-    });
+      lists.forEach((list) => {
+        if (list.id === listId) {
+          list.name = name;
+        }
+      });
 
-    this.db.setData(lists);
+      this.db.setData(lists);
+      this.updateLists();
 
-    this.updateLists();
-
-    const logEntry = {
-      text: `Renamed list: ${listId} on "${name}"`,
-      level: "info",
-    };
-    publisher.setLog(logEntry);
+      logEntry = {
+        text: `Renamed list: ${listId} on "${name}"`,
+        level: "info",
+      };
+    } catch (error) {
+      logEntry = {
+        text: `Error on rename list: ${listId} on "${name}"`,
+        level: "error",
+      };
+    } finally {
+      publisher.setLog(logEntry);
+    }
   }
 }

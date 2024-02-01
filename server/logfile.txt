@@ -20,3 +20,12 @@
 [info]: Duplicated card: "create card"
 [info]: Created list: "list"
 [info]: Deleted list: c300c19e-e246-41ac-bfbd-dbe94f789399
+[info]: Created list: "fertyu"
+[info]: Deleted card: ada6a850-6c5a-4267-9017-e29d6d7f3862
+[info]: Duplicated card: "Implement card title renaming"
+[info]: Deleted card: ca859ccf-e701-4d7c-89e7-a0198978d196
+[info]: Created list: ""
+[info]: Renamed list: d6bd6b6a-6893-4697-9899-9fa1efad3326 on "In progres"
+[info]: Renamed list: d6bd6b6a-6893-4697-9899-9fa1efad3326 on "In progre"
+[info]: Created list: "done"
+[info]: Change title card: 1542023d-689b-48d4-8f20-a482fc8fd8c2 on "Implement adding list"

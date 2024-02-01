@@ -4,11 +4,12 @@ import { CardEvent } from "../common/enums";
 import { Card } from "../data/models/card";
 import { SocketHandler } from "./socket.handler";
 import { List } from "../data/models/list";
-import { Publisher } from "../data/models/publisher";
+import { ILog, Publisher } from "../data/models/publisher";
 import { SubscriberConsole } from "../data/models/subscriberConsole";
 import { SubscriberFile } from "../data/models/subscriberFile";
 
 // PATTERN: Observer
+let logEntry: ILog;
 const publisher = new Publisher();
 const consoleSubscriber = new SubscriberConsole();
 const fileSubscriber = new SubscriberFile();
@@ -27,21 +28,29 @@ export class CardHandler extends SocketHandler {
   }
 
   public createCard(listId: string, cardName: string): void {
-    const newCard = new Card(cardName, "");
-    const lists = this.db.getData();
+    try {
+      const newCard = new Card(cardName, "");
+      const lists = this.db.getData();
 
-    const updatedLists = lists.map((list) =>
-      list.id === listId ? list.setCards(list.cards.concat(newCard)) : list
-    );
+      const updatedLists = lists.map((list) =>
+        list.id === listId ? list.setCards(list.cards.concat(newCard)) : list
+      );
 
-    this.db.setData(updatedLists);
-    this.updateLists();
+      this.db.setData(updatedLists);
+      this.updateLists();
 
-    const logEntry = {
-      text: `Created card: "${cardName}"`,
-      level: "info",
-    };
-    publisher.setLog(logEntry);
+      logEntry = {
+        text: `Created card: "${cardName}"`,
+        level: "info",
+      };
+    } catch (error) {
+      logEntry = {
+        text: `Error on create card: "${cardName}"`,
+        level: "error",
+      };
+    } finally {
+      publisher.setLog(logEntry);
+    }
   }
 
   private reorderCards({
@@ -68,44 +77,60 @@ export class CardHandler extends SocketHandler {
   }
   // PATTERN: Prototype
   public duplicateCard(cardId: string, listId: string): void {
-    const list: List = this.db.getData().find((list) => list.id === listId);
-    const card: Card = list.cards.find((card) => card.id === cardId);
+    try {
+      const list: List = this.db.getData().find((list) => list.id === listId);
+      const card: Card = list.cards.find((card) => card.id === cardId);
 
-    const duplicatedCard = card.duplicate();
-    const lists = this.db.getData();
+      const duplicatedCard = card.duplicate();
+      const lists = this.db.getData();
 
-    const updatedLists = lists.map((list) =>
-      list.id === listId
-        ? list.setCards(list.cards.concat(duplicatedCard))
-        : list
-    );
+      const updatedLists = lists.map((list) =>
+        list.id === listId
+          ? list.setCards(list.cards.concat(duplicatedCard))
+          : list
+      );
 
-    this.db.setData(updatedLists);
-    this.updateLists();
+      this.db.setData(updatedLists);
+      this.updateLists();
 
-    const logEntry = {
-      text: `Duplicated card: "${duplicatedCard.name}"`,
-      level: "info",
-    };
-    publisher.setLog(logEntry);
+      logEntry = {
+        text: `Duplicated card: "${duplicatedCard.name}"`,
+        level: "info",
+      };
+    } catch (error) {
+      logEntry = {
+        text: `Error on duplicate card."`,
+        level: "error",
+      };
+    } finally {
+      publisher.setLog(logEntry);
+    }
   }
 
   public deleteCard(cardId: string, listId: string): void {
-    const lists: List[] = this.db.getData();
+    try {
+      const lists: List[] = this.db.getData();
 
-    const updatedLists = lists.map((list) =>
-      list.id === listId
-        ? list.setCards(list.cards.filter((card) => card.id !== cardId))
-        : list
-    );
+      const updatedLists = lists.map((list) =>
+        list.id === listId
+          ? list.setCards(list.cards.filter((card) => card.id !== cardId))
+          : list
+      );
 
-    this.db.setData(updatedLists);
-    this.updateLists();
-    const logEntry = {
-      text: `Deleted card: ${cardId}`,
-      level: "info",
-    };
-    publisher.setLog(logEntry);
+      this.db.setData(updatedLists);
+      this.updateLists();
+      logEntry = {
+        text: `Deleted card: ${cardId}`,
+        level: "info",
+      };
+    } catch (error) {
+      logEntry = {
+        text: `Error on delete card: ${cardId}`,
+        level: "error",
+      };
+    } finally {
+      publisher.setLog(logEntry);
+    }
   }
 
   public changeDescription(
@@ -113,48 +138,63 @@ export class CardHandler extends SocketHandler {
     cardId: string,
     description: string
   ): void {
-    const lists: List[] = this.db.getData();
+    try {
+      const lists: List[] = this.db.getData();
 
-    lists.forEach((list) => {
-      if (list.id === listId) {
-        list.cards.forEach((card) => {
-          if (card.id === cardId) {
-            card.description = description;
-          }
-        });
-      }
-    });
+      lists.forEach((list) => {
+        if (list.id === listId) {
+          list.cards.forEach((card) => {
+            if (card.id === cardId) {
+              card.description = description;
+            }
+          });
+        }
+      });
 
-    this.db.setData(lists);
+      this.db.setData(lists);
+      this.updateLists();
 
-    this.updateLists();
-
-    const logEntry = {
-      text: `Change description card: ${cardId}`,
-      level: "info",
-    };
-    publisher.setLog(logEntry);
+      logEntry = {
+        text: `Change description card: ${cardId}`,
+        level: "info",
+      };
+    } catch (error) {
+      logEntry = {
+        text: `Error on change description card: ${cardId}`,
+        level: "error",
+      };
+    } finally {
+      publisher.setLog(logEntry);
+    }
   }
 
   public changeTitle(listId: string, cardId: string, name: string): void {
-    const lists: List[] = this.db.getData();
+    try {
+      const lists: List[] = this.db.getData();
 
-    lists.forEach((list) => {
-      if (list.id === listId) {
-        list.cards.forEach((card) => {
-          if (card.id === cardId) {
-            card.name = name;
-          }
-        });
-      }
-    });
+      lists.forEach((list) => {
+        if (list.id === listId) {
+          list.cards.forEach((card) => {
+            if (card.id === cardId) {
+              card.name = name;
+            }
+          });
+        }
+      });
 
-    this.db.setData(lists);
-    this.updateLists();
-    const logEntry = {
-      text: `Change title card: ${cardId} on "${name}"`,
-      level: "info",
-    };
-    publisher.setLog(logEntry);
+      this.db.setData(lists);
+      this.updateLists();
+      logEntry = {
+        text: `Change title card: ${cardId} on "${name}"`,
+        level: "info",
+      };
+    } catch (error) {
+      logEntry = {
+        text: `Error on change title card: ${cardId} on "${name}"`,
+        level: "error",
+      };
+    } finally {
+      publisher.setLog(logEntry);
+    }
   }
 }
