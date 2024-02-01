@@ -48,7 +48,7 @@ export const Workspace = () => {
 
     if (isReorderLists) {
       setLists(
-        reorderService.reorderLists(lists, source.index, destination.index)
+        reorderService.reorderLists(lists, source.index, destination.index),
       );
       socket.emit(ListEvent.REORDER, source.index, destination.index);
 

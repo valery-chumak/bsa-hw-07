@@ -31,7 +31,7 @@ export class Publisher {
 
   unsubscribe(observer: Observer) {
     this.subscribers = this.subscribers.filter(
-      (subscriber) => subscriber !== observer
+      (subscriber) => subscriber !== observer,
     );
   }
 }

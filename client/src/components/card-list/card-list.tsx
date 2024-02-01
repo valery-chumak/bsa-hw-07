@@ -22,7 +22,7 @@ const CardsList = ({ listId, listType, style, cards }: Props) => {
     <Droppable droppableId={listId} type={listType}>
       {(
         dropProvided: DroppableProvided,
-        dropSnapshot: DroppableStateSnapshot
+        dropSnapshot: DroppableStateSnapshot,
       ) => (
         <ListWrapper
           style={style}

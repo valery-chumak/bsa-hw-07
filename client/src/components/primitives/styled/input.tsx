@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
+import styled from "@emotion/styled";
 
-import { BORDER_RADIUS } from '../../../common/constants';
+import { BORDER_RADIUS } from "../../../common/constants";
 
 type Props = {
   fontSize: "x-large" | "large" | "medium";

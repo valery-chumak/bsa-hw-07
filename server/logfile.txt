@@ -49,3 +49,15 @@
 [info]: Deleted list: dcbc40da-324f-4e27-bba5-c5e7c831c0cc
 [info]: Created list: "sss"
 [info]: Deleted list: f3bb90e7-60cd-40d9-b8e7-9eaf775b0b0d
+[info]: Deleted card: 90b9d0a3-fbe6-4ced-aef2-7cfe9630c121
+[info]: Created list: "іііі"
+[info]: Created list: "aaaa"
+[info]: Renamed list: 0a89fa1e-6978-493c-9bc7-01ae3b036a92 on "aaaaaadf"
+[info]: Deleted list: 0a89fa1e-6978-493c-9bc7-01ae3b036a92
+[info]: Created list: "asdfg"
+[info]: Created list: "artfg"
+[info]: Deleted list: a8af5f98-624d-4873-9aa0-9cd273c97994
+[info]: Duplicated card: "Implement adding lists"
+[info]: Duplicated card: "Implement card title renaming"
+[info]: Deleted card: 81a48aec-0714-4faf-93a3-16ecd0357e2e
+[info]: Duplicated card: "Implement renaming lists"

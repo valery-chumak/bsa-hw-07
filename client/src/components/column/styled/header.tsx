@@ -1,8 +1,8 @@
-import { colors } from '@atlaskit/theme';
-import styled from '@emotion/styled';
-import { DraggableProvidedDragHandleProps } from '@hello-pangea/dnd';
+import { colors } from "@atlaskit/theme";
+import styled from "@emotion/styled";
+import { DraggableProvidedDragHandleProps } from "@hello-pangea/dnd";
 
-import { BORDER_RADIUS } from '../../../common/constants';
+import { BORDER_RADIUS } from "../../../common/constants";
 
 type Props = (DraggableProvidedDragHandleProps | object) & {
   isDragging: boolean;

@@ -14,7 +14,7 @@ abstract class SocketHandler {
   public constructor(
     io: Server,
     db: Database,
-    reorderService: ReorderServiceProxy
+    reorderService: ReorderServiceProxy,
   ) {
     this.io = io;
     this.db = db;

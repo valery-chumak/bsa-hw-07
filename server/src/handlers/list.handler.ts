@@ -33,7 +33,7 @@ export class ListHandler extends SocketHandler {
     const reorderedLists = this.reorderService.reorder(
       lists,
       sourceIndex,
-      destinationIndex
+      destinationIndex,
     );
     this.db.setData(reorderedLists);
     this.updateLists();

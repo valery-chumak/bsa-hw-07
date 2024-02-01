@@ -1,5 +1,5 @@
-import { colors } from '@atlaskit/theme';
-import styled from '@emotion/styled';
+import { colors } from "@atlaskit/theme";
+import styled from "@emotion/styled";
 
 const Container = styled.div`
   background-color: ${colors.B100};

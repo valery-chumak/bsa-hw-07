@@ -33,7 +33,7 @@ export class CardHandler extends SocketHandler {
       const lists = this.db.getData();
 
       const updatedLists = lists.map((list) =>
-        list.id === listId ? list.setCards(list.cards.concat(newCard)) : list
+        list.id === listId ? list.setCards(list.cards.concat(newCard)) : list,
       );
 
       this.db.setData(updatedLists);
@@ -87,7 +87,7 @@ export class CardHandler extends SocketHandler {
       const updatedLists = lists.map((list) =>
         list.id === listId
           ? list.setCards(list.cards.concat(duplicatedCard))
-          : list
+          : list,
       );
 
       this.db.setData(updatedLists);
@@ -114,7 +114,7 @@ export class CardHandler extends SocketHandler {
       const updatedLists = lists.map((list) =>
         list.id === listId
           ? list.setCards(list.cards.filter((card) => card.id !== cardId))
-          : list
+          : list,
       );
 
       this.db.setData(updatedLists);
@@ -136,7 +136,7 @@ export class CardHandler extends SocketHandler {
   public changeDescription(
     listId: string,
     cardId: string,
-    description: string
+    description: string,
   ): void {
     try {
       const lists: List[] = this.db.getData();
